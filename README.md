@@ -43,7 +43,7 @@ Wykonano standardową instalację zgodną z [poniższą instrukcją](https://ubu
 
 Aby umożliwić pracę z lokalną maszyną, zmieniono ustawienie _Settings -> Network -> Attached to_ z NAT na Bridged Adapter.
 
-Następnie na maszynie lokalnej przy pomocy kontenera Docker zainstalowano komplet narzędzi potrzebych do uruchomienia serwisu [Zabbix](https://www.zabbix.com/) z bazą danych Postgres zgodnie z Przykładem nr 2 dostępnym pod [poniższym adresem](https://www.zabbix.com/documentation/current/en/manual/installation/containers).
+Następnie na maszynie lokalnej przy pomocy kontenera Docker zainstalowano komplet narzędzi potrzebnych do uruchomienia serwisu [Zabbix](https://www.zabbix.com/) z bazą danych Postgres zgodnie z Przykładem nr 2 dostępnym pod [poniższym adresem](https://www.zabbix.com/documentation/current/en/manual/installation/containers).
 
 Aby umożliwić zbieranie danych o maszynie wirtualnej, zainstalowano na niej Zabbix Agent2 zgodnie z [poniższą instrukcją](https://medium.com/geekculture/how-to-install-zabbix-agent2-on-linux-c603023207d2).
 Uzupełniając w pliku konfiguracyjnym Zabbix Agent2 informacje:
