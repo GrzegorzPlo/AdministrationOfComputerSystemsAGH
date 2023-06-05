@@ -62,7 +62,7 @@ Dodatkowo, przed uruchomieniem Zabbix Agent2, skonfigurowano także firewall wyk
 ```
 sudo ufw status
 ```
-- Uruchomienie firawall (jeśli poprzednia komenda zwróci wartość inactive)
+- Uruchomienie firewall (jeśli poprzednia komenda zwróci wartość inactive)
 ```
 sudo ufw enable
 ```
