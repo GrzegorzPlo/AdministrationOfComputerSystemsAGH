@@ -1,8 +1,6 @@
 # Using Kibana and Grafana for monitoring of Virtual Machines and micro-services
 by Michał Sterzel & Grzegorz Płóciennik
 
-[TOC]
-
 ## [Grafana](https://grafana.com/) - the open observability platform
 ### Opis ogólny
 Jedną z dwóch części projektu realizowanego w ramach przedmiotu **Administracja Systemów Komputerowych** była konfiguracja środowiska oraz implementacja dashboardów na platformie Grafana dla wybranej aplikacji oraz maszyny wirtualnej.
