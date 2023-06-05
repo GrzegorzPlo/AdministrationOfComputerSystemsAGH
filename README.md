@@ -76,7 +76,7 @@ Następnym krokiem była weryfikacja adresu IPv4 maszyny wirtualnej za pomocą k
 ```
 ifconfig
 ```
-Dosponując kompletem informacji na temat Zabbix Agent2, możliwe było dodanie nowego hosta do Zabbix Server (zgodnie z ww. instrukcją).
+Dysponując kompletem informacji na temat Zabbix Agent2, możliwe było dodanie nowego hosta do Zabbix Server (zgodnie z ww. instrukcją).
 
 
 #### Grafana
