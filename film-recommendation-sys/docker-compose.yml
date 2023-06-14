@@ -1,0 +1,53 @@
+version: "3"
+services:
+#  movie-recommendation:
+#    build:
+#      context: /movie-recommendation
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - mysql-net
+#    depends_on:
+#      - user
+#      - mysqldb
+#
+#  movie-base:
+#    build:
+#      context: /movie-base
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8084:8084"
+#    networks:
+#      - mysql-net
+#    depends_on:
+#      - user
+#      - mysqldb
+#
+#
+#  user:
+#    build:
+#      context: /user
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8081:8081"
+#    networks:
+#      - mysql-net
+#    depends_on:
+#      - mysqldb
+#
+
+  mysqldb:
+    image: mysql:latest
+    networks:
+      - mysql-net
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=filmRecommendationDb
+      - MYSQL_ROOT_PASSWORD=root
+
+networks:
+  mysql-net:
+
+
