@@ -90,4 +90,5 @@ W analigiczny sposób dodano [plugin Zabbix](https://grafana.com/grafana/plugins
 
 ### Przygotowanie dashboardów Grafana
 Etap przygotowywania dashboardów i związanych z nimi obiektami opierał się o [oficjalną dokumentację producenta](https://grafana.com/docs/grafana/latest/) oraz poradniki dostępne w sieci.
-
+Dla obu środowisk zdecydowano się przygotować po dwa dashboardy prezentujące przykładowe dane - nie skupiono się na ilości prezentowanych wizualizacji, ale na przedstawieniu najczęściej stosowanych dla dashboardów konfiguracji i ustawień. 
+Z uwagi na fakt, iż tablice Grafana...
