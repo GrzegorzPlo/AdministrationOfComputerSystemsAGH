@@ -89,6 +89,5 @@ Uzupełniono Nazwę (Name) oraz adres URL usługi - pozostałe ustawienia zachow
 W analigiczny sposób dodano [plugin Zabbix](https://grafana.com/grafana/plugins/alexanderzobnin-zabbix-app/), skonfigurowano Data Source podając URL w postaci HOST_SERVER_IP/api_jsonrpc.php oraz dane logowania do Zabbix API.
 
 ### Przygotowanie dashboardów Grafana
-Etap przygotowywania dashboardów i związanych z nimi obiektami opierał się o [oficjalną dokumentację producenta](https://grafana.com/docs/grafana/latest/) oraz poradniki dostępne w sieci.
-Dla obu środowisk zdecydowano się przygotować po dwa dashboardy prezentujące przykładowe dane - nie skupiono się na ilości prezentowanych wizualizacji, ale na przedstawieniu najczęściej stosowanych dla dashboardów konfiguracji i ustawień. 
-Z uwagi na fakt, iż tablice Grafana...
+Etap przygotowywania dashboardów i związanych z nimi obiektów opierał się o [oficjalną dokumentację producenta](https://grafana.com/docs/grafana/latest/) oraz poradniki dostępne w sieci.
+Dla obu środowisk zdecydowano się przygotować dashboardy prezentujące przykładowe dane - nie skupiono się na ilości prezentowanych wizualizacji, ale na przedstawieniu najczęściej stosowanych dla dashboardów konfiguracji i ustawień. 
