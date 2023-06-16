@@ -93,14 +93,14 @@ Etap przygotowywania dashboardów i związanych z nimi obiektów opierał się o
 Dla obu środowisk zdecydowano się przygotować dashboardy prezentujące przykładowe dane - nie skupiono się na ilości prezentowanych wizualizacji, ale na przedstawieniu najczęściej stosowanych dla dashboardów konfiguracji i ustawień. 
 
 
-## [Kibana](https://www.elastic.co/kibana/) - a data visualization dashboard software for Elastisearch
+## [Kibana](https://www.elastic.co/kibana/) - a data visualization dashboard software for Elasticsearch
 ### Opis ogólny
 Drugą częścią realizowanego przez nas projektu była konfiguracja środowiska oraz implementacja dashboardów na platformie Kibana dla wybranej aplikacji.
 
 ### Przygotowanie oraz konfiguracja środowiska
 
 #### Aplikacja
-Postanowiliśmy ponownie skorzystać z aplikacji użytej podczas konfiguracji usługi Grafana. Ze względu na sposób działania oprogramowania Kibana uznaliśmy, że dobrym rozwiązaniem będzie skomasowanie rozdzielonego frontendu oraz backendu aplikacji w całość wspólnie istniejącą w obrębie jednego kontenra oraz łatwiejszą do jednoczesnego uruchomienia. W tym celu dwa pliki docker-compose.yml należące do front i backendu zostały połączone.
+Postanowiliśmy ponownie skorzystać z aplikacji użytej podczas konfiguracji usługi Grafana. Ze względu na sposób działania oprogramowania Kibana uznaliśmy, że dobrym rozwiązaniem będzie skomasowanie rozdzielonego frontendu oraz backendu aplikacji w całość, wspólnie istniejącą w obrębie jednego kontenera oraz łatwiejszą do jednoczesnego uruchomienia. W tym celu dwa pliki docker-compose.yml należące do front i backendu zostały połączone.
 
 #### Kibana i Elasticsearch
 Następnym krokiem było dodanie oprogramowania Kibana do istniejącej konfiguracji. W tym celu do pliku docker-compose.yml dodano poniższe wpisy:
@@ -148,7 +148,7 @@ Dodanie oprogramowania przebiegło w podobny sposób jak w przypadku dodania Kib
       - elasticsearch
       - mysqldb
 ```
-jednak usługa Logstash potrzebowała również plików konfigurujących na podstawie których miała pobierać dane z bazy MySQL jak również wtyczki mysql-jdbc. Wymagane pliki zostały umieszczone w katalogu config w katalogu głównym projektu. Ponieżej treść pliku logstash.conf:
+Usługa Logstash potrzebowała jednak również plików konfigurujących na podstawie których miała pobierać dane z bazy MySQL jak również wtyczki mysql-jdbc. Wymagane pliki zostały umieszczone w katalogu config w katalogu głównym projektu. Ponieżej treść pliku logstash.conf:
 ```
 input {
   jdbc {
@@ -175,8 +175,9 @@ output {
 }
 ```
 Z tego pliku Logstash odczytuje wszelkie parametry potrzebne do nawiązania połączenia z bazą MySQL oraz API Elasticsearch. 
-Po uruchomieniu kontenera Logstash wykona zapytanie z pola statement na bazie danych, następnie utworzy index z nazwą wprowadzoną w pliku oraz udostępnie te dane w interfejsie graficznym Kibany.
+Po uruchomieniu kontenera Logstash wykona zapytanie z pola statement na bazie danych, następnie utworzy index z nazwą wprowadzoną w pliku oraz udostępni te dane w interfejsie graficznym Kibany.
 Dodatkowo wprowadzone do pliku zostało pole schedule z wartością */1* co powoduje, że Logstash w interwałach 1 minutowych będzie ponownie wykonywał zapytanie na bazie i uaktualniał dane w Kibanie.
+W celu uniknięcia duplikacji danych flaga record_last_run została zaznaczona, a do pola statement została dodana odpowiednia reguła, która będzie zczytywać tylko wpisy o większej wartości pola id niż dotychaczasowe
 
 #### Dołączenie indexu i utworzenie dashboard'u
 Po dodaniu do konfiguracji usługi Logstash w Kibanie uzyskaliśmy dostęp do nowo utworzonego indexu userdata:
