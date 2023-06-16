@@ -91,3 +91,95 @@ W analigiczny sposób dodano [plugin Zabbix](https://grafana.com/grafana/plugins
 ### Przygotowanie dashboardów Grafana
 Etap przygotowywania dashboardów i związanych z nimi obiektów opierał się o [oficjalną dokumentację producenta](https://grafana.com/docs/grafana/latest/) oraz poradniki dostępne w sieci.
 Dla obu środowisk zdecydowano się przygotować dashboardy prezentujące przykładowe dane - nie skupiono się na ilości prezentowanych wizualizacji, ale na przedstawieniu najczęściej stosowanych dla dashboardów konfiguracji i ustawień. 
+
+##[Kibana](https://www.elastic.co/kibana/) - a data visualization dashboard software for Elastisearch
+### Opis ogólny
+Drugą częścią realizowanego przez nas projektu była konfiguracja środowiska oraz implementacja dashboardów na platformie Kibana dla wybranej aplikacji.
+
+### Przygotowanie oraz konfiguracja środowiska
+
+#### Aplikacja
+Postanowiliśmy ponownie skorzystać z aplikacji użytej podczas konfiguracji usługi Grafana. Ze względu na sposób działania oprogramowania Kibana uznaliśmy, że dobrym rozwiązaniem będzie skomasowanie rozdzielonego frontendu oraz backendu aplikacji w całość wspólnie istniejącą w obrębie jednego kontenra oraz łatwiejszą do jednoczesnego uruchomienia. W tym celu dwa pliki docker-compose.yml należące do front i backendu zostały połączone.
+
+#### Kibana i Elasticsearch
+Następnym krokiem było dodanie oprogramowania Kibana do istniejącej konfiguracji. W tym celu do pliku docker-compose.yml dodano poniższe wpisy:
+```
+  kibana:
+    networks:
+      - mysql-net
+    image: docker.elastic.co/kibana/kibana:7.14.0
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+
+  elasticsearch:
+    networks:
+      - mysql-net
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+```
+
+Uruchomienie kontenera przy pomocy komendy:
+```
+docker-compose up -d
+```
+pozwoliło nam uzyskać dostęp do strony głównej interfejsu graficznego usługi Kibana pod adresem http://localhost:5601/app/home#/:
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/103272466/62b754a2-7651-4bf1-b339-7cd2b21b5be2)
+
+#### Logstash i pipeline z bazy MySQL
+Mając dostęp do usługi Kibana potrzebowaliśmy połączyć ją z bazą MySQL wykorzysywaną przez aplikację. W tym celu skorzystaliśmy z oprogramowania Logstash wspieranego przez Elasticsearch właśnie w tym celu.
+Dodanie oprogramowania przebiegło w podobny sposób jak w przypadku dodania Kibany i Elasticsearch:
+```
+  logstash:
+    networks:
+      - mysql-net
+    image: docker.elastic.co/logstash/logstash:7.14.0
+    volumes:
+      - ./config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./config/mysql-connector-java-8.0.30.jar:/usr/share/logstash/mysql-connector-java-8.0.30.jar
+    depends_on:
+      - elasticsearch
+      - mysqldb
+```
+jednak usługa Logstash potrzebowała również plików konfigurujących na podstawie których miała pobierać dane z bazy MySQL jak również wtyczki mysql-jdbc. Wymagane pliki zostały umieszczone w katalogu config w katalogu głównym projektu. Ponieżej treść pliku logstash.conf:
+```
+input {
+  jdbc {
+    jdbc_connection_string => "jdbc:mysql://mysqldb:3306/filmRecommendationDb"
+    jdbc_user => "root"
+    jdbc_password => "root"
+    jdbc_driver_library => "/usr/share/logstash/mysql-connector-java-8.0.30.jar"
+    jdbc_driver_class => "com.mysql.jdbc.Driver"
+    statement => "SELECT * FROM user WHERE id > :sql_last_value ORDER BY id ASC"
+    schedule => "*/1 * * * *"
+    use_column_value => true
+    tracking_column => "id"
+    tracking_column_type => "numeric"
+    record_last_run => true
+    clean_run => false
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["elasticsearch:9200"]
+    index => "userdata"
+  }
+}
+```
+Z tego pliku Logstash odczytuje wszelkie parametry potrzebne do nawiązania połączenia z bazą MySQL oraz API Elasticsearch. 
+Po uruchomieniu kontenera Logstash wykona zapytanie z pola statement na bazie danych, następnie utworzy index z nazwą wprowadzoną w pliku oraz udostępnie te dane w interfejsie graficznym Kibany.
+Dodatkowo wprowadzone do pliku zostało pole schedule z wartością */1* co powoduje, że Logstash w interwałach 1 minutowych będzie ponownie wykonywał zapytanie na bazie i uaktualniał dane w Kibanie.
+
+#### Dołączenie indexu i utworzenie dashboard'u
+Po dodaniu do konfiguracji usługi Logstash w Kibanie uzyskaliśmy dostęp do nowo utworzonego indexu userdata:
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/103272466/f5fa348a-e3a3-43c4-b545-4dbeaf0e6d2f)
+
+Mając dostęp do indexu możemy zacząć tworzyć wizualizacje danych takie jak np. liczba obecnych użytkowników:
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/103272466/2ecc295e-adc5-4c9c-bc72-f4ec5f7c7a98)
