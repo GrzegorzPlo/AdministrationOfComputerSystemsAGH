@@ -92,7 +92,8 @@ W analigiczny sposób dodano [plugin Zabbix](https://grafana.com/grafana/plugins
 Etap przygotowywania dashboardów i związanych z nimi obiektów opierał się o [oficjalną dokumentację producenta](https://grafana.com/docs/grafana/latest/) oraz poradniki dostępne w sieci.
 Dla obu środowisk zdecydowano się przygotować dashboardy prezentujące przykładowe dane - nie skupiono się na ilości prezentowanych wizualizacji, ale na przedstawieniu najczęściej stosowanych dla dashboardów konfiguracji i ustawień. 
 
-##[Kibana](https://www.elastic.co/kibana/) - a data visualization dashboard software for Elastisearch
+
+## [Kibana](https://www.elastic.co/kibana/) - a data visualization dashboard software for Elastisearch
 ### Opis ogólny
 Drugą częścią realizowanego przez nas projektu była konfiguracja środowiska oraz implementacja dashboardów na platformie Kibana dla wybranej aplikacji.
 
