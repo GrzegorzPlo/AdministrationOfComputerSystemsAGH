@@ -1,5 +1,5 @@
 # Using Kibana and Grafana for monitoring of Virtual Machines and micro-services
-by Michał Sterzel & Grzegorz Płóciennik
+by Michał Sterzel (Kibana) & Grzegorz Płóciennik (Grafana)
 
 ## [Grafana](https://grafana.com/) - the open observability platform
 ### Opis ogólny
@@ -91,7 +91,22 @@ W analigiczny sposób dodano [plugin Zabbix](https://grafana.com/grafana/plugins
 ### Przygotowanie dashboardów Grafana
 Etap przygotowywania dashboardów i związanych z nimi obiektów opierał się o [oficjalną dokumentację producenta](https://grafana.com/docs/grafana/latest/) oraz poradniki dostępne w sieci.
 Dla obu środowisk zdecydowano się przygotować dashboardy prezentujące przykładowe dane - nie skupiono się na ilości prezentowanych wizualizacji, ale na przedstawieniu najczęściej stosowanych dla dashboardów konfiguracji i ustawień. 
+Dla aplikacji webowej zdecydowano się utworzyć następujące dashboardy:
+- Usage:
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/81100672/525be648-f9d0-44af-a802-b09b914d112c)
+- JVM
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/81100672/1c2eac1e-c468-451b-8f29-e593393b5e81)
 
+A dla maszyny wirtualnej:
+- General Data
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/81100672/4d9a0be9-9b17-4679-b7f8-c27996606f56)
+- Memory and disk details
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/81100672/1500e126-fd04-4001-9a42-5703884e1b1c)
+- Network details
+![image](https://github.com/GrzegorzPlo/AdministrationOfComputerSystemsAGH/assets/81100672/ef347ad9-291f-44f0-a8c7-72523df24967)
+
+Co istotne - dla części przygotowanych tablic zaimplementowano dodatkowe funkcjonalności - takie jak odniesienia do źródła danych (widoczne w wyekportowanym z Grafany kodzie) czy też połączenie ze zmiennymi, które pozwoliłoby np. na użycie jednego dashboardu dla wielu aplikacji - z wyborem z listy.
+Parametry granic warningów dodane do wizualizacji są przykładowe - zwykle dobera się je w oparciu o dostępne zasoby oraz poziom krytyczności wybranego systemu. Warto wspomnieć, że Grafana oferuje także konfigurację ostrzeżeń jednak nie zawsze jest ona używana ponieważ np. w przypadku maszyn wirtualnych zdecydowanie lepszym pomysłem jest użycie powiadomień bezpośrednio z usługi Zabbix, aby nie dodawać do procesu kolejnego "kroku".
 
 ## [Kibana](https://www.elastic.co/kibana/) - a data visualization dashboard software for Elasticsearch
 ### Opis ogólny
